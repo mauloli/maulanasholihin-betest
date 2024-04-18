@@ -19,5 +19,7 @@ Router.get(
 )
 
 Router.post('/', userController.create)
+Router.patch('/:id', userController.update)
+Router.delete('/:id', userController.delete)
 
 module.exports = Router;

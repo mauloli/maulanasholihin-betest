@@ -82,4 +82,30 @@ module.exports = {
       return helperWrapper.response(res, 400, error.message, null)
     }
   },
+  update: async (req, res) => {
+    try {
+      const { body, params } = req;
+
+      const patchUser = await Users.findOneAndUpdate(
+        { _id: params.id },
+        { $set: body },
+        { new: true }
+      )
+
+      const { password, ...result } = patchUser._doc;
+
+      return helperWrapper.response(res, 200, 'success', result)
+    } catch (error) {
+      return helperWrapper.response(res, 400, error.message, null)
+    }
+  },
+  delete: async (req, res) => {
+    try {
+      const { params } = req;
+      await Users.deleteOne({ _id: params.id })
+      return helperWrapper.response(res, 200, 'success delete data', {})
+    } catch (error) {
+      return helperWrapper.response(res, 400, error.message, null)
+    }
+  }
 }
