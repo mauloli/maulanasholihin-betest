@@ -18,8 +18,8 @@ Router.get(
   userController.get
 )
 
-Router.post('/', userController.create)
-Router.patch('/:id', userController.update)
-Router.delete('/:id', userController.delete)
+Router.post('/', middlewareRedis.clear, userController.create)
+Router.patch('/:id', middlewareRedis.clear, userController.update,)
+Router.delete('/:id', middlewareRedis.clear, userController.delete)
 
 module.exports = Router;

@@ -56,5 +56,27 @@ module.exports = {
         null
       )
     }
+  },
+  clear: async (req, res, next) => {
+    const baseUrl = req.baseUrl.slice(1)
+
+    try {
+      const keys = await redis.keys(`get_${baseUrl}:*`);
+
+      if (keys.length) {
+        keys.forEach(async (el) => {
+          await redis.del(el);
+        });
+      }
+
+      next()
+    } catch (error) {
+      return helperWrapper.response(
+        res,
+        400,
+        error.message,
+        null
+      )
+    }
   }
 }
